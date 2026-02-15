@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToneForgeAI - Transform Your Emails</title>
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+          "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #111827 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .background-container {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: pulse-slow 4s ease-in-out infinite;
+      }
+
+      .orb-1 {
+        top: 0;
+        right: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(147, 51, 234, 0.2) 0%,
+          rgba(59, 130, 246, 0.2) 50%,
+          rgba(6, 182, 212, 0.2) 100%
+        );
+      }
+
+      .orb-2 {
+        bottom: 0;
+        left: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.2) 0%,
+          rgba(99, 102, 241, 0.2) 50%,
+          rgba(147, 51, 234, 0.2) 100%
+        );
+        animation-delay: 1s;
+      }
+
+      .orb-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(6, 182, 212, 0.15) 0%,
+          rgba(59, 130, 246, 0.15) 50%,
+          rgba(99, 102, 241, 0.15) 100%
+        );
+        animation-delay: 2s;
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.05);
+        }
+      }
+
+      .grid-pattern {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        opacity: 0.4;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .header {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0.8),
+          rgba(31, 41, 55, 0.8),
+          rgba(15, 23, 42, 0.8)
+        );
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+      }
+
+      .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .logo-wrapper {
+        position: relative;
+      }
+
+      .logo-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #3b82f6, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.75;
+        transition: opacity 0.3s;
+      }
+
+      .logo-link:hover .logo-glow {
+        opacity: 1;
+      }
+
+      .logo-icon {
+        position: relative;
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea, #06b6d4);
+        padding: 0.75rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s;
+        color: white;
+      }
+
+      .logo-link:hover .logo-icon {
+        transform: scale(1.05);
+      }
+
+      .logo-title {
+        font-size: 1.875rem;
+        font-weight: bold;
+      }
+
+      .logo-tone {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-ai {
+        background: linear-gradient(to right, #c084fc, #f9a8d4, #93c5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-subtitle {
+        color: #9ca3af;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.25rem;
+      }
+
+      /* Navigation */
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: #d1d5db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #ffffff;
+      }
+
+      /* AI Badge */
+      .ai-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .sparkles-icon {
+        color: #67e8f9;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Main Content */
+      .main-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        padding: 5rem 0;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(
+          to right,
+          rgba(59, 130, 246, 0.1),
+          rgba(147, 51, 234, 0.1)
+        );
+        border-radius: 9999px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .badge svg {
+        color: #60a5fa;
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .white-text {
+        color: #ffffff;
+      }
+
+      .hero-description {
+        font-size: 1.25rem;
+        color: #9ca3af;
+        max-width: 48rem;
+        margin: 0 auto 3rem;
+        line-height: 1.8;
+      }
+
+      .hero-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+      }
+
+      /* Buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 2rem;
+        font-size: 1.125rem;
+        font-weight: bold;
+        border-radius: 1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(to right, #2563eb, #9333ea, #06b6d4);
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #2563eb, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        filter: blur(20px);
+        opacity: 0.75;
+        z-index: -1;
+        transition: opacity 0.3s;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-primary:hover::before {
+        opacity: 1;
+      }
+
+      .btn-secondary {
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: #d1d5db;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      /* Features Grid */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 5rem;
+      }
+
+      .feature-card {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.5),
+          rgba(31, 41, 55, 0.5),
+          rgba(15, 23, 42, 0.5)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .feature-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .feature-card:hover .feature-glow {
+        opacity: 1;
+      }
+
+      .glow-blue {
+        background: linear-gradient(
+          to bottom right,
+          rgba(59, 130, 246, 0.2),
+          rgba(147, 51, 234, 0.2)
+        );
+      }
+
+      .glow-purple {
+        background: linear-gradient(
+          to bottom right,
+          rgba(147, 51, 234, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+      }
+
+      .glow-cyan {
+        background: linear-gradient(
+          to bottom right,
+          rgba(6, 182, 212, 0.2),
+          rgba(59, 130, 246, 0.2)
+        );
+      }
+
+      .feature-content {
+        position: relative;
+      }
+
+      .feature-icon-wrapper {
+        position: relative;
+        margin-bottom: 1.25rem;
+        width: fit-content;
+      }
+
+      .feature-icon-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.5;
+      }
+
+      .feature-icon {
+        position: relative;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .icon-blue {
+        background: linear-gradient(to bottom right, #3b82f6, #06b6d4);
+      }
+
+      .icon-purple {
+        background: linear-gradient(to bottom right, #9333ea, #ec4899);
+      }
+
+      .icon-cyan {
+        background: linear-gradient(to bottom right, #06b6d4, #3b82f6);
+      }
+
+      .feature-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0.75rem;
+      }
+
+      .feature-description {
+        color: #9ca3af;
+        line-height: 1.6;
+      }
+
+      /* Section Header */
+      .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: #9ca3af;
+      }
+
+      /* Tone Types */
+      .tone-types {
+        margin-bottom: 5rem;
+      }
+
+      .tone-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+
+      .tone-card {
+        position: relative;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .tone-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .tone-card:hover .tone-glow {
+        opacity: 1;
+      }
+
+      .tone-content {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.7),
+          rgba(31, 41, 55, 0.7),
+          rgba(15, 23, 42, 0.7)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        height: 100%;
+        transition: all 0.3s;
+      }
+
+      .tone-card:hover .tone-content {
+        transform: scale(1.05);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .tone-icon-wrapper {
+        position: relative;
+        margin-bottom: 1.25rem;
+        width: fit-content;
+      }
+
+      .tone-icon-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.5;
+      }
+
+      .tone-icon {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .tone-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0.75rem;
+      }
+
+      .tone-description {
+        color: #9ca3af;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+
+      .tone-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #60a5fa;
+        font-weight: 600;
+        transition: gap 0.3s;
+      }
+
+      .tone-card:hover .tone-link {
+        gap: 0.75rem;
+      }
+
+      .tone-link-purple {
+        color: #c084fc;
+      }
+
+      .tone-link-cyan {
+        color: #67e8f9;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        margin-top: 5rem;
+        position: relative;
+      }
+
+      .cta-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(37, 99, 235, 0.5),
+          rgba(147, 51, 234, 0.5),
+          rgba(6, 182, 212, 0.5)
+        );
+        border-radius: 1.5rem;
+        filter: blur(60px);
+        opacity: 0.5;
+        transition: opacity 0.3s;
+      }
+
+      .cta-section:hover .cta-glow {
+        opacity: 0.75;
+      }
+
+      .cta-content {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(30, 41, 59, 0.9),
+          rgba(31, 41, 55, 0.9),
+          rgba(15, 23, 42, 0.9)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 4rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .cta-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom right,
+          rgba(59, 130, 246, 0.05),
+          rgba(147, 51, 234, 0.05),
+          rgba(6, 182, 212, 0.05)
+        );
+      }
+
+      .cta-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 5rem;
+        height: 5rem;
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .cta-icon svg {
+        color: white;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .cta-title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-description {
+        font-size: 1.25rem;
+        color: #d1d5db;
+        max-width: 42rem;
+        margin: 0 auto 2.5rem;
+        font-weight: 500;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .ai-badge {
+          display: none;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+
+        .features-grid,
+        .tone-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-title {
+          font-size: 2rem;
+        }
+
+        .cta-content {
+          padding: 2rem;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .hero-title {
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="background-container">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo-link">
+          <div class="logo-wrapper">
+            <div class="logo-glow"></div>
+            <div class="logo-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="logo-text">
+            <h1 class="logo-title">
+              <span class="logo-tone">ToneForge</span
+              ><span class="logo-ai">AI</span>
+            </h1>
+            <p class="logo-subtitle">Transform • Elevate • Professionalize</p>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="formalizer.html" class="nav-link">Formalizer</a>
+          <a href="templates.html" class="nav-link">Templates</a>
+        </nav>
+
+        <div class="ai-badge">
+          <svg
+            class="sparkles-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"></path>
+          </svg>
+          <span>AI-Powered</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="badge">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"></path>
+            </svg>
+            <span>AI-Powered Email Transformation</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="gradient-text">Transform Your Emails</span>
+            <br />
+            <span class="white-text">Into Masterpieces</span>
+          </h1>
+
+          <p class="hero-description">
+            Elevate your communication with AI-powered email refinement. Turn
+            casual messages into professional correspondence in seconds with our
+            advanced language models.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="formalizer.html" class="btn btn-primary">
+              <span>Start Forging</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+
+            <a href="templates.html" class="btn btn-secondary"
+              >View Templates</a
+            >
+          </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="features-grid">
+          <div class="feature-card">
+            <div class="feature-glow glow-blue"></div>
+            <div class="feature-content">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-blue"></div>
+                <div class="feature-icon icon-blue">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polygon
+                      points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+                    ></polygon>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Lightning Fast</h3>
+              <p class="feature-description">
+                Transform your emails in seconds with our advanced AI models
+                that understand context and tone perfectly
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-glow glow-purple"></div>
+            <div class="feature-content">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-purple"></div>
+                <div class="feature-icon icon-purple">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Multiple Tones</h3>
+              <p class="feature-description">
+                Choose from business, academic, or corporate styles to match any
+                professional context or audience
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-glow glow-cyan"></div>
+            <div class="feature-content">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-cyan"></div>
+                <div class="feature-icon icon-cyan">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline
+                      points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                    ></polyline>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Premium Quality</h3>
+              <p class="feature-description">
+                Every transformation maintains your message while elevating it
+                to executive-level communication standards
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tone Types Preview -->
+        <section class="tone-types">
+          <div class="section-header">
+            <h2 class="section-title">Choose Your Professional Tone</h2>
+            <p class="section-subtitle">
+              Select the perfect style for your communication needs
+            </p>
+          </div>
+
+          <div class="tone-grid">
+            <!-- Business -->
+            <a href="templates.html" class="tone-card">
+              <div class="tone-glow glow-blue"></div>
+              <div class="tone-content">
+                <div class="tone-icon-wrapper">
+                  <div class="tone-icon-glow glow-blue"></div>
+                  <div class="tone-icon icon-blue">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect
+                        x="2"
+                        y="7"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path
+                        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="tone-title">Business Professional</h3>
+                <p class="tone-description">
+                  Results-driven, client-focused communication designed for
+                  professional business relationships and partnerships
+                </p>
+                <div class="tone-link">
+                  <span>View Examples</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </a>
+
+            <!-- Academic -->
+            <a href="templates.html" class="tone-card">
+              <div class="tone-glow glow-purple"></div>
+              <div class="tone-content">
+                <div class="tone-icon-wrapper">
+                  <div class="tone-icon-glow glow-purple"></div>
+                  <div class="tone-icon icon-purple">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                      <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="tone-title">Academic Formal</h3>
+                <p class="tone-description">
+                  Scholarly, respectful correspondence ideal for academic
+                  institutions, research, and educational contexts
+                </p>
+                <div class="tone-link tone-link-purple">
+                  <span>View Examples</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </a>
+
+            <!-- Corporate -->
+            <a href="templates.html" class="tone-card">
+              <div class="tone-glow glow-cyan"></div>
+              <div class="tone-content">
+                <div class="tone-icon-wrapper">
+                  <div class="tone-icon-glow glow-cyan"></div>
+                  <div class="tone-icon icon-cyan">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                  </div>
+                </div>
+                <h3 class="tone-title">Corporate Executive</h3>
+                <p class="tone-description">
+                  Strategic, team-centered messaging for corporate environments,
+                  stakeholders, and executive communication
+                </p>
+                <div class="tone-link tone-link-cyan">
+                  <span>View Examples</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+          <div class="cta-glow"></div>
+          <div class="cta-content">
+            <div class="cta-bg"></div>
+            <div class="cta-inner">
+              <div class="cta-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="cta-title">Ready to Transform Your Communication?</h2>
+              <p class="cta-description">
+                Join thousands of professionals who trust ToneForgeAI to elevate
+                their emails and make lasting impressions
+              </p>
+              <a href="formalizer.html" class="btn btn-primary">
+                <span>Get Started Now</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

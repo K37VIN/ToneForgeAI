@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - ToneForgeAI</title>
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+          "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #111827 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .background-container {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: pulse-slow 4s ease-in-out infinite;
+      }
+
+      .orb-1 {
+        top: 0;
+        right: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(147, 51, 234, 0.2) 0%,
+          rgba(59, 130, 246, 0.2) 50%,
+          rgba(6, 182, 212, 0.2) 100%
+        );
+      }
+
+      .orb-2 {
+        bottom: 0;
+        left: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.2) 0%,
+          rgba(99, 102, 241, 0.2) 50%,
+          rgba(147, 51, 234, 0.2) 100%
+        );
+        animation-delay: 1s;
+      }
+
+      .orb-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(6, 182, 212, 0.15) 0%,
+          rgba(59, 130, 246, 0.15) 50%,
+          rgba(99, 102, 241, 0.15) 100%
+        );
+        animation-delay: 2s;
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.05);
+        }
+      }
+
+      .grid-pattern {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        opacity: 0.4;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .header {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0.8),
+          rgba(31, 41, 55, 0.8),
+          rgba(15, 23, 42, 0.8)
+        );
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+      }
+
+      .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .logo-wrapper {
+        position: relative;
+      }
+
+      .logo-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #3b82f6, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.75;
+        transition: opacity 0.3s;
+      }
+
+      .logo-link:hover .logo-glow {
+        opacity: 1;
+      }
+
+      .logo-icon {
+        position: relative;
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea, #06b6d4);
+        padding: 0.75rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s;
+        color: white;
+      }
+
+      .logo-link:hover .logo-icon {
+        transform: scale(1.05);
+      }
+
+      .logo-title {
+        font-size: 1.875rem;
+        font-weight: bold;
+      }
+
+      .logo-tone {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-ai {
+        background: linear-gradient(to right, #c084fc, #f9a8d4, #93c5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-subtitle {
+        color: #9ca3af;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.25rem;
+      }
+
+      /* Navigation */
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: #d1d5db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #ffffff;
+      }
+
+      /* AI Badge */
+      .ai-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .sparkles-icon {
+        color: #67e8f9;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Main Content */
+      .main-content {
+        position: relative;
+        z-index: 1;
+        padding: 5rem 0;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        margin-bottom: 5rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(
+          to right,
+          rgba(59, 130, 246, 0.1),
+          rgba(147, 51, 234, 0.1)
+        );
+        border-radius: 9999px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .badge svg {
+        color: #60a5fa;
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .white-text {
+        color: #ffffff;
+      }
+
+      .hero-description {
+        font-size: 1.25rem;
+        color: #9ca3af;
+        max-width: 48rem;
+        margin: 0 auto;
+        line-height: 1.8;
+      }
+
+      /* Content Section */
+      .content-section {
+        margin-bottom: 5rem;
+        position: relative;
+      }
+
+      .section-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        filter: blur(40px);
+        opacity: 0.5;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .content-section:hover .section-glow {
+        opacity: 0.75;
+      }
+
+      .glow-blue {
+        background: linear-gradient(
+          to right,
+          rgba(59, 130, 246, 0.2),
+          rgba(147, 51, 234, 0.2)
+        );
+      }
+
+      .content-card {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.9),
+          rgba(31, 41, 55, 0.9),
+          rgba(15, 23, 42, 0.9)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-icon-wrapper {
+        position: relative;
+      }
+
+      .card-icon-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.5;
+      }
+
+      .card-icon {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .icon-blue {
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea);
+      }
+
+      .icon-cyan {
+        background: linear-gradient(to bottom right, #06b6d4, #3b82f6);
+      }
+
+      .card-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+      }
+
+      .card-content {
+        font-size: 1.125rem;
+        color: #d1d5db;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-content:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Section Title */
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: white;
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      /* Grid Layout */
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      /* Feature Card */
+      .feature-card {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.7),
+          rgba(31, 41, 55, 0.7),
+          rgba(15, 23, 42, 0.7)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .feature-icon-wrapper {
+        position: relative;
+        margin-bottom: 1.25rem;
+        width: fit-content;
+      }
+
+      .feature-icon-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.5;
+      }
+
+      .feature-icon {
+        position: relative;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .icon-purple {
+        background: linear-gradient(to bottom right, #9333ea, #ec4899);
+      }
+
+      .feature-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1rem;
+      }
+
+      .feature-description {
+        color: #9ca3af;
+        line-height: 1.6;
+      }
+
+      /* Reason Card */
+      .reason-card {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.7),
+          rgba(31, 41, 55, 0.7),
+          rgba(15, 23, 42, 0.7)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+      }
+
+      .reason-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+
+      .reason-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .reason-card:hover .reason-glow {
+        opacity: 1;
+      }
+
+      .glow-purple {
+        background: linear-gradient(
+          to bottom right,
+          rgba(147, 51, 234, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+      }
+
+      .glow-cyan {
+        background: linear-gradient(
+          to bottom right,
+          rgba(6, 182, 212, 0.2),
+          rgba(59, 130, 246, 0.2)
+        );
+      }
+
+      .glow-indigo {
+        background: linear-gradient(
+          to bottom right,
+          rgba(99, 102, 241, 0.2),
+          rgba(147, 51, 234, 0.2)
+        );
+      }
+
+      .reason-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .bullet-dot {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+      }
+
+      .dot-blue {
+        background-color: #3b82f6;
+      }
+
+      .dot-purple {
+        background-color: #9333ea;
+      }
+
+      .dot-cyan {
+        background-color: #06b6d4;
+      }
+
+      .dot-indigo {
+        background-color: #6366f1;
+      }
+
+      .reason-description {
+        color: #9ca3af;
+        line-height: 1.6;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .ai-badge {
+          display: none;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .card-title {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .content-card {
+          padding: 2rem;
+        }
+
+        .grid-3,
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .hero-title {
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="background-container">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo-link">
+          <div class="logo-wrapper">
+            <div class="logo-glow"></div>
+            <div class="logo-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="logo-text">
+            <h1 class="logo-title">
+              <span class="logo-tone">ToneForge</span
+              ><span class="logo-ai">AI</span>
+            </h1>
+            <p class="logo-subtitle">Transform • Elevate • Professionalize</p>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link active">About</a>
+          <a href="formalizer.html" class="nav-link">Formalizer</a>
+          <a href="templates.html" class="nav-link">Templates</a>
+        </nav>
+
+        <div class="ai-badge">
+          <svg
+            class="sparkles-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"></path>
+          </svg>
+          <span>AI-Powered</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="badge">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"></path>
+            </svg>
+            <span>About ToneForgeAI</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="gradient-text">Revolutionizing</span>
+            <br />
+            <span class="white-text">Email Communication</span>
+          </h1>
+
+          <p class="hero-description">
+            ToneForgeAI is an advanced AI-powered platform that transforms
+            casual, informal emails into professional, polished correspondence
+            tailored to your specific communication needs.
+          </p>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="content-section">
+          <div class="section-glow glow-blue"></div>
+          <div class="content-card">
+            <div class="card-header">
+              <div class="card-icon-wrapper">
+                <div class="card-icon-glow glow-blue"></div>
+                <div class="card-icon icon-blue">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                  </svg>
+                </div>
+              </div>
+              <h2 class="card-title">Our Mission</h2>
+            </div>
+            <p class="card-content">
+              We believe that effective communication is the cornerstone of
+              professional success. Our mission is to empower individuals and
+              organizations with AI-driven tools that enhance their written
+              communication, ensuring every email makes the right impression.
+            </p>
+            <p class="card-content">
+              Whether you're reaching out to clients, collaborating with
+              colleagues, or corresponding with academic institutions,
+              ToneForgeAI helps you communicate with confidence and clarity.
+            </p>
+          </div>
+        </section>
+
+        <!-- What We Do Section -->
+        <section class="content-section">
+          <h2 class="section-title">What We Do</h2>
+          <div class="grid-3">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-blue"></div>
+                <div class="feature-icon icon-blue">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                    ></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Analyze Context</h3>
+              <p class="feature-description">
+                Our AI analyzes your email content, understanding the intent,
+                context, and key message you want to convey.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-purple"></div>
+                <div class="feature-icon icon-purple">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Transform Tone</h3>
+              <p class="feature-description">
+                We restructure your message according to the selected
+                professional tone - business, academic, or corporate.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrapper">
+                <div class="feature-icon-glow glow-cyan"></div>
+                <div class="feature-icon icon-cyan">
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline
+                      points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                    ></polyline>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="feature-title">Deliver Excellence</h3>
+              <p class="feature-description">
+                Receive a polished, professional email ready to send - complete
+                with proper structure, greeting, and closing.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Why Choose Us Section -->
+        <section class="content-section">
+          <h2 class="section-title">Why Choose ToneForgeAI?</h2>
+          <div class="grid-2">
+            <div class="reason-card">
+              <div class="reason-glow glow-blue"></div>
+              <h3 class="reason-title">
+                <div class="bullet-dot dot-blue"></div>
+                Advanced AI Technology
+              </h3>
+              <p class="reason-description">
+                Powered by state-of-the-art language models that understand
+                nuance, context, and professional communication standards across
+                different industries and settings.
+              </p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-glow glow-purple"></div>
+              <h3 class="reason-title">
+                <div class="bullet-dot dot-purple"></div>
+                Time-Saving Solution
+              </h3>
+              <p class="reason-description">
+                Transform emails in seconds, not minutes. Spend less time
+                worrying about tone and structure, and more time focusing on
+                what matters most in your work.
+              </p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-glow glow-cyan"></div>
+              <h3 class="reason-title">
+                <div class="bullet-dot dot-cyan"></div>
+                Consistent Quality
+              </h3>
+              <p class="reason-description">
+                Ensure every email maintains the same high standard of
+                professionalism, regardless of your current mood, time
+                constraints, or writing ability.
+              </p>
+            </div>
+
+            <div class="reason-card">
+              <div class="reason-glow glow-indigo"></div>
+              <h3 class="reason-title">
+                <div class="bullet-dot dot-indigo"></div>
+                Multiple Professional Styles
+              </h3>
+              <p class="reason-description">
+                Choose from business, academic, or corporate tones to match any
+                professional context, ensuring your message resonates with your
+                audience.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Commitment Section -->
+        <section class="content-section">
+          <div class="section-glow glow-cyan"></div>
+          <div class="content-card">
+            <div class="card-header">
+              <div class="card-icon-wrapper">
+                <div class="card-icon-glow glow-cyan"></div>
+                <div class="card-icon icon-cyan">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+              </div>
+              <h2 class="card-title">Our Commitment</h2>
+            </div>
+            <p class="card-content">
+              At ToneForgeAI, we're committed to continuous improvement and
+              innovation. We regularly update our AI models to reflect the
+              latest communication trends and professional standards. Our team
+              is dedicated to providing you with the most reliable, efficient,
+              and sophisticated email transformation tool available.
+            </p>
+            <p class="card-content">
+              Join thousands of professionals who trust ToneForgeAI to elevate
+              their communication and make every email count.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

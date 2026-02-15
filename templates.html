@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Templates - ToneForgeAI</title>
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+          "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        background: linear-gradient(
+          135deg,
+          #111827 0%,
+          #1e293b 50%,
+          #0f172a 100%
+        );
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .background-container {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .gradient-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: pulse-slow 4s ease-in-out infinite;
+      }
+
+      .orb-1 {
+        top: 0;
+        right: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(147, 51, 234, 0.2) 0%,
+          rgba(59, 130, 246, 0.2) 50%,
+          rgba(6, 182, 212, 0.2) 100%
+        );
+      }
+
+      .orb-2 {
+        bottom: 0;
+        left: 0;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(59, 130, 246, 0.2) 0%,
+          rgba(99, 102, 241, 0.2) 50%,
+          rgba(147, 51, 234, 0.2) 100%
+        );
+        animation-delay: 1s;
+      }
+
+      .orb-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(6, 182, 212, 0.15) 0%,
+          rgba(59, 130, 246, 0.15) 50%,
+          rgba(99, 102, 241, 0.15) 100%
+        );
+        animation-delay: 2s;
+      }
+
+      @keyframes pulse-slow {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(1.05);
+        }
+      }
+
+      .grid-pattern {
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        opacity: 0.4;
+      }
+
+      /* Container */
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Header */
+      .header {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(15, 23, 42, 0.8),
+          rgba(31, 41, 55, 0.8),
+          rgba(15, 23, 42, 0.8)
+        );
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .header-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+      }
+
+      .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .logo-wrapper {
+        position: relative;
+      }
+
+      .logo-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #3b82f6, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.75;
+        transition: opacity 0.3s;
+      }
+
+      .logo-link:hover .logo-glow {
+        opacity: 1;
+      }
+
+      .logo-icon {
+        position: relative;
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea, #06b6d4);
+        padding: 0.75rem;
+        border-radius: 1rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s;
+        color: white;
+      }
+
+      .logo-link:hover .logo-icon {
+        transform: scale(1.05);
+      }
+
+      .logo-title {
+        font-size: 1.875rem;
+        font-weight: bold;
+      }
+
+      .logo-tone {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-ai {
+        background: linear-gradient(to right, #c084fc, #f9a8d4, #93c5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .logo-subtitle {
+        color: #9ca3af;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: 0.25rem;
+      }
+
+      /* Navigation */
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .nav-link {
+        color: #d1d5db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        color: #ffffff;
+      }
+
+      /* AI Badge */
+      .ai-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.25rem;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 9999px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .sparkles-icon {
+        color: #67e8f9;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* Main Content */
+      .main-content {
+        position: relative;
+        z-index: 1;
+        padding: 5rem 0;
+      }
+
+      /* Hero Section */
+      .hero {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(
+          to right,
+          rgba(59, 130, 246, 0.1),
+          rgba(147, 51, 234, 0.1)
+        );
+        border-radius: 9999px;
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        backdrop-filter: blur(10px);
+        margin-bottom: 1.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #d1d5db;
+      }
+
+      .badge svg {
+        color: #60a5fa;
+      }
+
+      .hero-title {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        line-height: 1.1;
+      }
+
+      .gradient-text {
+        background: linear-gradient(to right, #93c5fd, #c084fc, #67e8f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-description {
+        font-size: 1.25rem;
+        color: #9ca3af;
+        max-width: 48rem;
+        margin: 0 auto;
+        line-height: 1.8;
+      }
+
+      /* Template Card */
+      .template-card {
+        position: relative;
+        margin-bottom: 3rem;
+      }
+
+      .template-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1.5rem;
+        filter: blur(40px);
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: -1;
+      }
+
+      .template-card:hover .template-glow {
+        opacity: 1;
+      }
+
+      .glow-blue {
+        background: linear-gradient(
+          to bottom right,
+          rgba(59, 130, 246, 0.2),
+          rgba(147, 51, 234, 0.2)
+        );
+      }
+
+      .glow-purple {
+        background: linear-gradient(
+          to bottom right,
+          rgba(147, 51, 234, 0.2),
+          rgba(236, 72, 153, 0.2)
+        );
+      }
+
+      .glow-cyan {
+        background: linear-gradient(
+          to bottom right,
+          rgba(6, 182, 212, 0.2),
+          rgba(59, 130, 246, 0.2)
+        );
+      }
+
+      .template-content {
+        position: relative;
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.9),
+          rgba(31, 41, 55, 0.9),
+          rgba(15, 23, 42, 0.9)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .template-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .template-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .template-icon-wrapper {
+        position: relative;
+      }
+
+      .template-icon-glow {
+        position: absolute;
+        inset: 0;
+        border-radius: 1rem;
+        filter: blur(12px);
+        opacity: 0.5;
+      }
+
+      .template-icon {
+        position: relative;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .icon-blue {
+        background: linear-gradient(to bottom right, #3b82f6, #06b6d4);
+      }
+
+      .icon-purple {
+        background: linear-gradient(to bottom right, #9333ea, #ec4899);
+      }
+
+      .icon-cyan {
+        background: linear-gradient(to bottom right, #06b6d4, #6366f1);
+      }
+
+      .template-text {
+        flex: 1;
+      }
+
+      .template-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0.25rem;
+      }
+
+      .template-description {
+        font-size: 0.875rem;
+        color: #9ca3af;
+      }
+
+      .copy-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: #d1d5db;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        backdrop-filter: blur(10px);
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Email Fields */
+      .email-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .email-field {
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.5),
+          rgba(15, 23, 42, 0.5)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1.25rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+      }
+
+      .email-field-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+
+      .email-body {
+        background: linear-gradient(
+          to bottom right,
+          rgba(30, 41, 59, 0.7),
+          rgba(15, 23, 42, 0.7),
+          rgba(17, 24, 39, 0.7)
+        );
+      }
+
+      .field-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .field-dot {
+        width: 0.375rem;
+        height: 0.375rem;
+        border-radius: 50%;
+      }
+
+      .dot-blue {
+        background-color: #3b82f6;
+      }
+
+      .dot-purple {
+        background-color: #9333ea;
+      }
+
+      .dot-cyan {
+        background-color: #06b6d4;
+      }
+
+      .field-label span {
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: #9ca3af;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .field-content {
+        color: white;
+        font-weight: 600;
+      }
+
+      .field-content-small {
+        color: #e5e7eb;
+        font-weight: 600;
+      }
+
+      .field-content-body {
+        color: #e5e7eb;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 0.875rem;
+      }
+
+      /* CTA Section */
+      .cta-section {
+        margin-top: 5rem;
+        position: relative;
+      }
+
+      .cta-glow {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(37, 99, 235, 0.5),
+          rgba(147, 51, 234, 0.5),
+          rgba(6, 182, 212, 0.5)
+        );
+        border-radius: 1.5rem;
+        filter: blur(60px);
+        opacity: 0.5;
+        transition: opacity 0.3s;
+      }
+
+      .cta-section:hover .cta-glow {
+        opacity: 0.75;
+      }
+
+      .cta-content {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          rgba(30, 41, 59, 0.9),
+          rgba(31, 41, 55, 0.9),
+          rgba(15, 23, 42, 0.9)
+        );
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 4rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .cta-bg {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom right,
+          rgba(59, 130, 246, 0.05),
+          rgba(147, 51, 234, 0.05),
+          rgba(6, 182, 212, 0.05)
+        );
+      }
+
+      .cta-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 5rem;
+        height: 5rem;
+        background: linear-gradient(to bottom right, #3b82f6, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .cta-icon svg {
+        color: white;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .cta-title {
+        font-size: 3rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-description {
+        font-size: 1.25rem;
+        color: #d1d5db;
+        max-width: 42rem;
+        margin: 0 auto 2.5rem;
+        font-weight: 500;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1.25rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: bold;
+        border-radius: 1rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(to right, #2563eb, #9333ea, #06b6d4);
+        color: white;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .btn-primary::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, #2563eb, #9333ea, #06b6d4);
+        border-radius: 1rem;
+        filter: blur(20px);
+        opacity: 0.75;
+        z-index: -1;
+        transition: opacity 0.3s;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+      }
+
+      .btn-primary:hover::before {
+        opacity: 1;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav {
+          display: none;
+        }
+
+        .ai-badge {
+          display: none;
+        }
+
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .template-header {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .copy-btn {
+          align-self: flex-start;
+        }
+
+        .email-field-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cta-title {
+          font-size: 2rem;
+        }
+
+        .cta-content {
+          padding: 2rem;
+        }
+      }
+
+      @media (min-width: 769px) and (max-width: 1024px) {
+        .hero-title {
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="background-container">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+      <div class="grid-pattern"></div>
+    </div>
+
+    <!-- Header with Navigation -->
+    <header class="header">
+      <div class="container header-content">
+        <a href="index.html" class="logo-link">
+          <div class="logo-wrapper">
+            <div class="logo-glow"></div>
+            <div class="logo-icon">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                ></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </div>
+          </div>
+          <div class="logo-text">
+            <h1 class="logo-title">
+              <span class="logo-tone">ToneForge</span
+              ><span class="logo-ai">AI</span>
+            </h1>
+            <p class="logo-subtitle">Transform • Elevate • Professionalize</p>
+          </div>
+        </a>
+
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="formalizer.html" class="nav-link">Formalizer</a>
+          <a href="templates.html" class="nav-link active">Templates</a>
+        </nav>
+
+        <div class="ai-badge">
+          <svg
+            class="sparkles-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"></path>
+          </svg>
+          <span>AI-Powered</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="badge">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Professional Email Templates</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="gradient-text">Email Templates</span>
+          </h1>
+
+          <p class="hero-description">
+            Explore our professionally crafted email examples across different
+            tones and contexts. These templates showcase the quality and
+            structure you can expect from ToneForgeAI.
+          </p>
+        </section>
+
+        <!-- Business Template -->
+        <div class="template-card" id="businessTemplate">
+          <div class="template-glow glow-blue"></div>
+          <div class="template-content">
+            <div class="template-header">
+              <div class="template-info">
+                <div class="template-icon-wrapper">
+                  <div class="template-icon-glow glow-blue"></div>
+                  <div class="template-icon icon-blue">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <rect
+                        x="2"
+                        y="7"
+                        width="20"
+                        height="14"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path
+                        d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="template-text">
+                  <h3 class="template-title">Business Professional</h3>
+                  <p class="template-description">
+                    Results-driven, client-focused communication for business
+                    relationships
+                  </p>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyTemplate('business')">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                <span id="copyBtnBusiness">Copy</span>
+              </button>
+            </div>
+
+            <div class="email-fields">
+              <div class="email-field">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>SUBJECT</span>
+                </div>
+                <div class="field-content">
+                  Project Proposal for Q1 Marketing Campaign
+                </div>
+              </div>
+
+              <div class="email-field-grid">
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-purple"></div>
+                    <span>FROM</span>
+                  </div>
+                  <div class="field-content-small">John Smith</div>
+                </div>
+
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-cyan"></div>
+                    <span>TO</span>
+                  </div>
+                  <div class="field-content-small">Sarah Johnson</div>
+                </div>
+              </div>
+
+              <div class="email-field email-body">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>EMAIL BODY</span>
+                </div>
+                <div class="field-content-body">
+                  Dear Ms. Johnson, I hope this message finds you well. I am
+                  writing to propose a comprehensive marketing campaign for the
+                  first quarter of 2024. Our team has developed a strategic plan
+                  that aligns with your organization's objectives to increase
+                  brand visibility by 35% and drive customer engagement across
+                  digital platforms. The proposed campaign includes targeted
+                  social media advertising, content marketing initiatives, and
+                  partnership collaborations with industry influencers. I would
+                  appreciate the opportunity to discuss this proposal in detail
+                  at your earliest convenience. Please let me know your
+                  availability for a meeting next week. Thank you for
+                  considering this proposal. I look forward to your response.
+                  Sincerely, John Smith Marketing Director Innovative Solutions
+                  Inc.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Academic Template -->
+        <div class="template-card" id="academicTemplate">
+          <div class="template-glow glow-purple"></div>
+          <div class="template-content">
+            <div class="template-header">
+              <div class="template-info">
+                <div class="template-icon-wrapper">
+                  <div class="template-icon-glow glow-purple"></div>
+                  <div class="template-icon icon-purple">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                      <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="template-text">
+                  <h3 class="template-title">Academic Formal</h3>
+                  <p class="template-description">
+                    Scholarly, respectful correspondence for academic
+                    institutions
+                  </p>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyTemplate('academic')">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                <span id="copyBtnAcademic">Copy</span>
+              </button>
+            </div>
+
+            <div class="email-fields">
+              <div class="email-field">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>SUBJECT</span>
+                </div>
+                <div class="field-content">
+                  Research Assistant Position Inquiry - Fall 2024
+                </div>
+              </div>
+
+              <div class="email-field-grid">
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-purple"></div>
+                    <span>FROM</span>
+                  </div>
+                  <div class="field-content-small">Emily Chen</div>
+                </div>
+
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-cyan"></div>
+                    <span>TO</span>
+                  </div>
+                  <div class="field-content-small">Dr. Robert Williams</div>
+                </div>
+              </div>
+
+              <div class="email-field email-body">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>EMAIL BODY</span>
+                </div>
+                <div class="field-content-body">
+                  Dear Professor Williams, I hope this email finds you well. My
+                  name is Emily Chen, and I am a third-year undergraduate
+                  student majoring in Computer Science at University College. I
+                  am writing to express my strong interest in joining your
+                  research team as a Research Assistant for the Fall 2024
+                  semester. I have been following your work on machine learning
+                  applications in healthcare, particularly your recent
+                  publication in the Journal of AI Research, which I found
+                  profoundly inspiring. My coursework in Advanced Algorithms and
+                  Data Structures, combined with my experience in Python and
+                  TensorFlow, has prepared me to contribute meaningfully to your
+                  ongoing projects. I have attached my resume and transcript for
+                  your review. I would be grateful for the opportunity to
+                  discuss how I might contribute to your research endeavors.
+                  Would you be available for a brief meeting to explore this
+                  possibility? Thank you for considering my application. I look
+                  forward to hearing from you. Best regards, Emily Chen Computer
+                  Science Major University College emily.chen@university.edu
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Corporate Template -->
+        <div class="template-card" id="corporateTemplate">
+          <div class="template-glow glow-cyan"></div>
+          <div class="template-content">
+            <div class="template-header">
+              <div class="template-info">
+                <div class="template-icon-wrapper">
+                  <div class="template-icon-glow glow-cyan"></div>
+                  <div class="template-icon icon-cyan">
+                    <svg
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                      ></path>
+                      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                  </div>
+                </div>
+                <div class="template-text">
+                  <h3 class="template-title">Corporate Executive</h3>
+                  <p class="template-description">
+                    Strategic, team-centered messaging for corporate
+                    environments
+                  </p>
+                </div>
+              </div>
+              <button class="copy-btn" onclick="copyTemplate('corporate')">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path
+                    d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                  ></path>
+                </svg>
+                <span id="copyBtnCorporate">Copy</span>
+              </button>
+            </div>
+
+            <div class="email-fields">
+              <div class="email-field">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>SUBJECT</span>
+                </div>
+                <div class="field-content">
+                  Q4 Performance Review and 2024 Strategic Planning
+                </div>
+              </div>
+
+              <div class="email-field-grid">
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-purple"></div>
+                    <span>FROM</span>
+                  </div>
+                  <div class="field-content-small">Michael Anderson</div>
+                </div>
+
+                <div class="email-field">
+                  <div class="field-label">
+                    <div class="field-dot dot-cyan"></div>
+                    <span>TO</span>
+                  </div>
+                  <div class="field-content-small">Leadership Team</div>
+                </div>
+              </div>
+
+              <div class="email-field email-body">
+                <div class="field-label">
+                  <div class="field-dot dot-blue"></div>
+                  <span>EMAIL BODY</span>
+                </div>
+                <div class="field-content-body">
+                  Hello Team, I am writing to provide an update on our Q4
+                  performance and outline our strategic priorities for the
+                  upcoming year. Our department has successfully exceeded our
+                  quarterly targets, achieving a 28% increase in productivity
+                  and completing all major initiatives ahead of schedule. This
+                  success is a direct result of your dedication and
+                  collaborative efforts. As we transition into 2024, our focus
+                  will shift to three key areas: enhancing operational
+                  efficiency, expanding our market presence, and investing in
+                  team development. Detailed action plans for each initiative
+                  will be distributed by Friday, and we will schedule individual
+                  team meetings to discuss implementation strategies. Please
+                  review the attached performance metrics and come prepared with
+                  your insights and recommendations for our planning session on
+                  January 15th. Thank you for your continued excellence and
+                  commitment to our shared goals. Kind regards, Michael Anderson
+                  Vice President of Operations GlobalTech Corporation
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+          <div class="cta-glow"></div>
+          <div class="cta-content">
+            <div class="cta-bg"></div>
+            <div class="cta-inner">
+              <div class="cta-icon">
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"
+                  ></path>
+                </svg>
+              </div>
+              <h2 class="cta-title">Ready to Create Your Own?</h2>
+              <p class="cta-description">
+                Transform your informal emails into professional masterpieces
+                with ToneForgeAI
+              </p>
+              <a href="formalizer.html" class="btn-primary">
+                <span>Try ToneForge Now</span>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M12 3v18M3 12h18M6.5 6.5l11 11M6.5 17.5l11-11"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // Email templates data
+      const templates = {
+        business: {
+          subject: "Project Proposal for Q1 Marketing Campaign",
+          from: "John Smith",
+          to: "Sarah Johnson",
+          body: `Dear Ms. Johnson,
+
+I hope this message finds you well. I am writing to propose a comprehensive marketing campaign for the first quarter of 2024.
+
+Our team has developed a strategic plan that aligns with your organization's objectives to increase brand visibility by 35% and drive customer engagement across digital platforms. The proposed campaign includes targeted social media advertising, content marketing initiatives, and partnership collaborations with industry influencers.
+
+I would appreciate the opportunity to discuss this proposal in detail at your earliest convenience. Please let me know your availability for a meeting next week.
+
+Thank you for considering this proposal. I look forward to your response.
+
+Sincerely,
+John Smith
+Marketing Director
+Innovative Solutions Inc.`,
+        },
+        academic: {
+          subject: "Research Assistant Position Inquiry - Fall 2024",
+          from: "Emily Chen",
+          to: "Dr. Robert Williams",
+          body: `Dear Professor Williams,
+
+I hope this email finds you well. My name is Emily Chen, and I am a third-year undergraduate student majoring in Computer Science at University College.
+
+I am writing to express my strong interest in joining your research team as a Research Assistant for the Fall 2024 semester. I have been following your work on machine learning applications in healthcare, particularly your recent publication in the Journal of AI Research, which I found profoundly inspiring.
+
+My coursework in Advanced Algorithms and Data Structures, combined with my experience in Python and TensorFlow, has prepared me to contribute meaningfully to your ongoing projects. I have attached my resume and transcript for your review.
+
+I would be grateful for the opportunity to discuss how I might contribute to your research endeavors. Would you be available for a brief meeting to explore this possibility?
+
+Thank you for considering my application. I look forward to hearing from you.
+
+Best regards,
+Emily Chen
+Computer Science Major
+University College
+emily.chen@university.edu`,
+        },
+        corporate: {
+          subject: "Q4 Performance Review and 2024 Strategic Planning",
+          from: "Michael Anderson",
+          to: "Leadership Team",
+          body: `Hello Team,
+
+I am writing to provide an update on our Q4 performance and outline our strategic priorities for the upcoming year.
+
+Our department has successfully exceeded our quarterly targets, achieving a 28% increase in productivity and completing all major initiatives ahead of schedule. This success is a direct result of your dedication and collaborative efforts.
+
+As we transition into 2024, our focus will shift to three key areas: enhancing operational efficiency, expanding our market presence, and investing in team development. Detailed action plans for each initiative will be distributed by Friday, and we will schedule individual team meetings to discuss implementation strategies.
+
+Please review the attached performance metrics and come prepared with your insights and recommendations for our planning session on January 15th.
+
+Thank you for your continued excellence and commitment to our shared goals.
+
+Kind regards,
+Michael Anderson
+Vice President of Operations
+GlobalTech Corporation`,
+        },
+      };
+
+      function copyTemplate(type) {
+        const template = templates[type];
+        const fullEmail = `Subject: ${template.subject}\nFrom: ${template.from}\nTo: ${template.to}\n\n${template.body}`;
+
+        navigator.clipboard.writeText(fullEmail).then(() => {
+          const btnText = document.getElementById(
+            `copyBtn${type.charAt(0).toUpperCase() + type.slice(1)}`,
+          );
+          btnText.textContent = "Copied!";
+          setTimeout(() => {
+            btnText.textContent = "Copy";
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>
